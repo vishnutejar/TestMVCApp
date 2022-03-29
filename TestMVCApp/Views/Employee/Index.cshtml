@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TestMVCApp.Models.EmployeeDTO>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+	<h4>EmployeeDTO</h4>
+	<hr />
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Employee Name</th>
+				<th>Employee Designation</th>
+				<th>Grade</th>
+				<th>Salary</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<th scope="row">@item.EmpName</th>
+					<td>@item.EmpDesg</td>
+					<td>@item.EmpGrade</td>
+					<td>@item.EmpSal.ToString()</td>
+					<td>
+						@Html.ActionLink("Edit", "Details", new { id = item.EmployeeId }, new { style = "background-color:black; color:white !important;" })
+						@Html.ActionLink("Delete", "Delete", "Employee", new { id = item.EmployeeId }, new { style = "background-color:black; color:white !important;" })
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+	@Html.ActionLink("Back to List", "Index") |
+	@Html.ActionLink("Create New", "Create")
+</p>

@@ -1,0 +1,127 @@
+﻿@model TestMVCApp.Models.EmployeeDTO
+
+@{
+	ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		//alert('document.ready');
+		$(".numberonly").keypress(function (e) {
+			//alert('keyup');
+			var charCode = (e.which) ? e.which : event.keyCode
+			if (String.fromCharCode(charCode).match(/[^0-9]/g))
+				return false;
+		});
+		//sample.postData();
+	});
+	var sample = {};
+	sample.postData = function () {
+		//var ds = document.getElementById("txtEmpId").val;
+		if (validateUser()) {
+        $.ajax({
+			type: "POST",
+			url: "@Url.Action("Create")",
+			dataType: "json",
+			traditional: true,
+			//async: true,
+			contentType: "application/json; charset=utf-8",
+			success: function (data) {
+				alert('data: ' + data);
+			},
+			data: JSON.stringify({
+				"employeeId": $("#txtEmpId").val(), "empName": $("#txtEmpName").val(),
+				"empDesg": $("#txtEmpDesg").val()
+				, "empSal": $("#txtEmpSal").val(), "empGrade": $("#txtEmpGrade").val()}),
+			//accept: 'application/json',
+			error: function (data) { alert('error data: ' + data); },
+		});
+
+			
+		}
+    };
+
+	function validateUser() {
+		//alert("validate user");
+		if ($("#txtEmpId").val() == "") {
+			alert("Please enter employee id");
+			return false;
+		}
+		if ($("#txtEmpName").val() == "") {
+			alert("Please enter employee id");
+			return false;
+		}
+		return true;
+	}
+</script>
+@using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { onsubmit = "sample.postData();" }))
+
+{
+	@*@Html.AntiForgeryToken()*@
+
+	<div class="form-horizontal">
+		<h4>EmployeeDTO</h4>
+		<hr />
+		@*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+		<div class="form-group">
+			@Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@*@Html.EditorFor(model => model.EmployeeId, new { htmlAttributes = new { @id = "txtEmpId", @class = "numberonly form-control" } })*@
+				
+				@Html.TextBoxFor(model => model.EmployeeId, new { @id = "txtEmpId", @class = "numberonly form-control" })
+				@*@Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })*@
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.EmpName, htmlAttributes: new { @id = "lblEmpName", @class = "email control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.TextBoxFor(model => model.EmpName, new { @id = "txtEmpName", @class = "form-control" })
+				@*@Html.ValidationMessageFor(model => model.EmpName, "", new { @class = "text-danger" })*@
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.EmpDesg, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.TextBoxFor(model => model.EmpDesg, new { @id = "txtEmpDesg", @class = "form-control" })
+				@*@Html.ValidationMessageFor(model => model.EmpDesg, "", new { @class = "text-danger" })*@
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.EmpSal, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.TextBoxFor(mbox => mbox.EmpSal, new { @id = "txtEmpSal", @class = "numberonly form-control" })
+				@*@Html.TextBoxFor(model => model.EmpSal, new { htmlAttributes = new { @id = "txtEmpSal", @class = "numberonly form-control" } })*@
+				@*@Html.ValidationMessageFor(model => model.EmpSal, "", new { @class = "text-danger" })*@
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.EmpGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.TextBoxFor(model => model.EmpGrade, new { @id = "txtEmpGrade", @class = "form-control" })
+				@*@Html.ValidationMessageFor(model => model.EmpGrade, "", new { @class = "text-danger" })*@
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="button" id="btnSecondary" value="ParticalClick" />
+				<input type="submit" id="createButton" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
