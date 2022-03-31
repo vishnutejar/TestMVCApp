@@ -31,5 +31,9 @@ namespace TestMVCApp.Controllers
 
 			return View();
 		}
+		public ActionResult Authentication() {
+			ViewBag.Message = "Your login page.";
+			return View();
+		}
 	}
 }
