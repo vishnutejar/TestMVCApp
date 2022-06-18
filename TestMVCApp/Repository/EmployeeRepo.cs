@@ -25,7 +25,7 @@ namespace TestMVCApp.Repository
 					EmpDesg = "EmpDesg " + i.ToString(),
 					EmpGrade = "E" + i.ToString(),
 					EmpName = "Name " + i.ToString(),
-					EmpSal = 12500 + i
+					EmpSal = 12500 + i,
 				});
 			}
 			return employeeDTOs;

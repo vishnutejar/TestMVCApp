@@ -1,38 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TestMVCApp.Models;
 
 namespace TestMVCApp.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
-		public ActionResult Index()
+		public ActionResult Index(string EmpName, string Password = null)
 		{
-			if (TempData["EmpTempData"] != null)
+				if (TempData["EmpTempData"] != null)
 			{
 				var empData = (EmployeeDTO)TempData["EmpTempData"];
 			}
-			return View();
+			return ValidateLogin(EmpName, Password);
 		}
 
-		public ActionResult About()
+		public ActionResult About(string EmpName, string Password = null)
 		{
-			ViewBag.Message = "Your application description page.";
 
-			return View();
+			return ValidateLogin(EmpName,Password);
+
 		}
-
-		public ActionResult Contact()
+		public ActionResult Register()
 		{
-			ViewBag.Message = "Your contact page.";
 
-			return View();
+			return View("~/Views/Employee/Create.cshtml");
+
 		}
-		public ActionResult Authentication() {
-			ViewBag.Message = "Your login page.";
+		public ActionResult ForgotPassword()
+		{
+			return View("~/Views/Home/ForgotPassword.cshtml");
+		}
+		private ViewResult ValidateLogin(string username,string password) {
+			if (!string.IsNullOrEmpty(username) &&!string.IsNullOrEmpty(password))
+			{
+				if (username.Equals("vishnu"))
+				{
+					ViewBag.Message = "Your application description page.";
+					return View();
+				}
+				else
+				{
+					return View("~/Views/LoginAndSignUp/Login.cshtml");
+
+				}
+			}
+			else
+			{
+				return View("~/Views/LoginAndSignUp/Login.cshtml");
+
+			}
+		}
+		public ActionResult Contact(string EmpName, string Password = null)
+		{
+			//ViewBag.Message = "Your contact page.";
+
+			return ValidateLogin(EmpName, Password);
+		}
+		public ActionResult Login() 
+		{
+			//ViewBag.Message = "Your contact page.";
+
+			return ValidateLogin("", "");
+		}
+		
+		public ActionResult ForgotPasswordValidation(string Password, string ConfirmPassword)
+		{
+
 			return View();
 		}
 	}
